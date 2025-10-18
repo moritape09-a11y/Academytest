@@ -1,0 +1,17 @@
+/* Minimal styles for cards and search form */
+.ad-search-form { margin-bottom: 1rem; }
+.ad-search-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+.ad-search-row input[type="text"],
+.ad-search-row select { padding: .5rem .6rem; border: 1px solid #ddd; border-radius: 6px; min-width: 160px; }
+.ad-btn { padding: .55rem .9rem; border: 1px solid #0a66c2; background: #0a66c2; color: #fff; border-radius: 6px; cursor: pointer; }
+.ad-btn:hover { background: #084e96; }
+
+.ad-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+.ad-card { border: 1px solid #eee; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; background: #fff; }
+.ad-card-thumb img { display: block; width: 100%; height: auto; }
+.ad-thumb-placeholder { width: 100%; padding-top: 56%; background: #f5f5f7; }
+.ad-card-body { padding: .75rem .9rem; }
+.ad-card-title { font-size: 1.05rem; margin: 0 0 .25rem; }
+.ad-card-excerpt { color: #555; font-size: .92rem; }
+.ad-card-meta { margin-top: .5rem; font-size: .85rem; color: #666; }
+.ad-empty { padding: .75rem; background: #fafafa; border: 1px dashed #eee; border-radius: 8px; text-align: center; }
