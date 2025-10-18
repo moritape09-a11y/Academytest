@@ -19,7 +19,8 @@ class ED_Post_Types {
     }
     
     private function __construct() {
-        add_action('init', array($this, 'register_post_types'));
+        // ثبت Post Types با اولویت بالا
+        add_action('init', array($this, 'register_post_types'), 0);
         add_filter('post_updated_messages', array($this, 'custom_messages'));
     }
     

@@ -19,7 +19,8 @@ class ED_Taxonomies {
     }
     
     private function __construct() {
-        add_action('init', array($this, 'register_taxonomies'));
+        // ثبت Taxonomies بعد از Post Types
+        add_action('init', array($this, 'register_taxonomies'), 5);
     }
     
     /**

@@ -46,30 +46,45 @@ class Educational_Directory {
      * سازنده کلاس
      */
     private function __construct() {
-        $this->init_hooks();
         $this->load_dependencies();
+        $this->init_hooks();
     }
     
     /**
      * بارگذاری فایل‌های وابسته
      */
     private function load_dependencies() {
-        require_once ED_PLUGIN_DIR . 'includes/class-post-types.php';
-        require_once ED_PLUGIN_DIR . 'includes/class-taxonomies.php';
-        require_once ED_PLUGIN_DIR . 'includes/class-meta-boxes.php';
-        require_once ED_PLUGIN_DIR . 'includes/class-shortcodes.php';
-        require_once ED_PLUGIN_DIR . 'includes/class-templates.php';
-        require_once ED_PLUGIN_DIR . 'includes/class-search-filter.php';
+        // بارگذاری فایل‌ها
+        $includes = array(
+            'includes/class-post-types.php',
+            'includes/class-taxonomies.php',
+            'includes/class-meta-boxes.php',
+            'includes/class-shortcodes.php',
+            'includes/class-templates.php',
+            'includes/class-search-filter.php'
+        );
+        
+        foreach ($includes as $file) {
+            $filepath = ED_PLUGIN_DIR . $file;
+            if (file_exists($filepath)) {
+                require_once $filepath;
+            }
+        }
     }
     
     /**
      * تنظیم هوک‌های اولیه
      */
     private function init_hooks() {
+        // بارگذاری ترجمه‌ها
         add_action('plugins_loaded', array($this, 'load_textdomain'));
+        
+        // راه‌اندازی اجزا - اولویت 0 برای اطمینان از اجرای اول
+        add_action('init', array($this, 'init_components'), 0);
+        
+        // بارگذاری assets
         add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_assets'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
-        add_action('init', array($this, 'init_components'));
         
         // فعال‌سازی پلاگین
         register_activation_hook(ED_PLUGIN_FILE, array($this, 'activate'));
@@ -114,20 +129,47 @@ class Educational_Directory {
      * راه‌اندازی اجزای پلاگین
      */
     public function init_components() {
-        ED_Post_Types::get_instance();
-        ED_Taxonomies::get_instance();
-        ED_Meta_Boxes::get_instance();
-        ED_Shortcodes::get_instance();
-        ED_Templates::get_instance();
-        ED_Search_Filter::get_instance();
+        // بررسی وجود کلاس‌ها و راه‌اندازی
+        if (class_exists('ED_Post_Types')) {
+            ED_Post_Types::get_instance();
+        }
+        
+        if (class_exists('ED_Taxonomies')) {
+            ED_Taxonomies::get_instance();
+        }
+        
+        if (class_exists('ED_Meta_Boxes')) {
+            ED_Meta_Boxes::get_instance();
+        }
+        
+        if (class_exists('ED_Shortcodes')) {
+            ED_Shortcodes::get_instance();
+        }
+        
+        if (class_exists('ED_Templates')) {
+            ED_Templates::get_instance();
+        }
+        
+        if (class_exists('ED_Search_Filter')) {
+            ED_Search_Filter::get_instance();
+        }
     }
     
     /**
      * فعال‌سازی پلاگین
      */
     public function activate() {
+        // بارگذاری فایل‌های مورد نیاز
+        $this->load_dependencies();
+        
         // ایجاد custom post types و taxonomies
-        $this->init_components();
+        if (class_exists('ED_Post_Types')) {
+            ED_Post_Types::get_instance();
+        }
+        
+        if (class_exists('ED_Taxonomies')) {
+            ED_Taxonomies::get_instance();
+        }
         
         // Flush rewrite rules
         flush_rewrite_rules();
