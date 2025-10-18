@@ -1,0 +1,27 @@
+/**
+ * استایل پنل مدیریت
+ */
+
+.form-table th {
+    width: 150px;
+}
+
+.form-table input[type="text"],
+.form-table input[type="email"],
+.form-table input[type="url"],
+.form-table input[type="number"],
+.form-table textarea {
+    width: 100%;
+    max-width: 500px;
+}
+
+.form-table textarea {
+    height: 100px;
+}
+
+/* آیکون‌ها */
+#menu-posts-academy .dashicons-building,
+#menu-posts-school .dashicons-admin-multisite,
+#menu-posts-teacher .dashicons-welcome-learn-more {
+    color: #2563eb;
+}
