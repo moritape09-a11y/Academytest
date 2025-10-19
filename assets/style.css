@@ -725,7 +725,7 @@
 .edu-search-filters {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
+    gap: 1.25rem;
     margin-bottom: 1.5rem;
 }
 
@@ -734,6 +734,7 @@
     padding: 1rem;
     border-radius: 12px;
     transition: all 0.3s;
+    min-width: 200px;
 }
 
 .edu-filter-group:hover {
@@ -746,28 +747,32 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 600;
     color: #374151;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
 }
 
 .edu-filter-icon {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
 }
 
 .edu-filter-select {
     width: 100%;
-    padding: 0.75rem;
+    min-width: 180px;
+    padding: 0.875rem 1rem;
     border: 2px solid #e5e7eb;
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: 1.05rem;
+    line-height: 1.5;
     font-family: inherit;
     cursor: pointer;
     transition: all 0.2s;
     background: #fff;
     color: #1f2937;
     font-weight: 500;
+    height: auto;
+    min-height: 48px;
 }
 
 .edu-filter-select:focus {
@@ -779,9 +784,11 @@
 .edu-filter-select option {
     background: #fff;
     color: #1f2937;
-    padding: 0.5rem;
-    font-size: 1rem;
+    padding: 0.75rem 1rem;
+    font-size: 1.05rem;
+    line-height: 1.6;
     font-weight: normal;
+    min-height: 40px;
 }
 
 /* دکمه‌های اضافی */
@@ -911,6 +918,15 @@
 @media (max-width: 1024px) {
     .edu-search-filters {
         grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .edu-filter-group {
+        min-width: auto;
+    }
+    
+    .edu-filter-select {
+        min-width: auto;
     }
 }
 
