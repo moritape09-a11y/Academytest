@@ -197,90 +197,250 @@ function edu_render_rating($rating) {
     return $output;
 }
 
-// شورت کد فرم جستجو و فیلتر
+// شورت کد جستجوگر پیشرفته
 function edu_search_shortcode($atts) {
     $atts = shortcode_atts(array(
         'show' => 'all', // all, academies, schools, teachers
     ), $atts);
     
     ob_start();
+    
+    // دریافت مقادیر جستجو
+    $search_query = isset($_GET['edu_search']) ? sanitize_text_field($_GET['edu_search']) : '';
+    $search_type = isset($_GET['edu_type']) ? sanitize_text_field($_GET['edu_type']) : 'all';
+    $search_city = isset($_GET['edu_city']) ? sanitize_text_field($_GET['edu_city']) : '';
+    $search_subject = isset($_GET['edu_subject']) ? sanitize_text_field($_GET['edu_subject']) : '';
+    $search_rating = isset($_GET['edu_rating']) ? sanitize_text_field($_GET['edu_rating']) : '';
+    
     ?>
-    <div class="edu-search-box">
-        <form method="get" class="edu-search-form">
-            <div class="edu-search-row">
-                <div class="edu-search-field">
-                    <input type="text" name="s" placeholder="جستجو..." value="<?php echo get_search_query(); ?>" class="edu-search-input">
+    <div class="edu-advanced-search">
+        <!-- هدر جستجو -->
+        <div class="edu-search-header">
+            <h2 class="edu-search-title">🔍 جستجوی پیشرفته</h2>
+            <p class="edu-search-subtitle">آموزشگاه، مدرسه یا معلم مورد نظر خود را پیدا کنید</p>
+        </div>
+        
+        <!-- فرم جستجو -->
+        <form method="get" class="edu-search-form-advanced" action="">
+            <!-- جستجوی اصلی -->
+            <div class="edu-search-main">
+                <div class="edu-search-icon">🔍</div>
+                <input 
+                    type="text" 
+                    name="edu_search" 
+                    class="edu-search-input-main" 
+                    placeholder="نام آموزشگاه، مدرسه، معلم یا رشته را جستجو کنید..."
+                    value="<?php echo esc_attr($search_query); ?>"
+                >
+                <button type="submit" class="edu-search-btn-main">جستجو</button>
+            </div>
+            
+            <!-- فیلترهای پیشرفته -->
+            <div class="edu-search-filters">
+                <div class="edu-filter-group">
+                    <label class="edu-filter-label">
+                        <span class="edu-filter-icon">📋</span>
+                        نوع
+                    </label>
+                    <select name="edu_type" class="edu-filter-select">
+                        <option value="all" <?php selected($search_type, 'all'); ?>>همه</option>
+                        <option value="academy" <?php selected($search_type, 'academy'); ?>>آموزشگاه</option>
+                        <option value="school" <?php selected($search_type, 'school'); ?>>مدرسه</option>
+                        <option value="teacher" <?php selected($search_type, 'teacher'); ?>>معلم</option>
+                    </select>
                 </div>
                 
-                <div class="edu-search-field">
-                    <select name="edu_city" class="edu-search-select">
+                <div class="edu-filter-group">
+                    <label class="edu-filter-label">
+                        <span class="edu-filter-icon">📍</span>
+                        شهر
+                    </label>
+                    <select name="edu_city" class="edu-filter-select">
                         <option value="">همه شهرها</option>
                         <?php
                         $cities = get_terms(array('taxonomy' => 'city', 'hide_empty' => false));
                         if ($cities && !is_wp_error($cities)) {
                             foreach ($cities as $city) {
-                                $selected = (isset($_GET['edu_city']) && $_GET['edu_city'] == $city->slug) ? 'selected' : '';
-                                echo '<option value="' . esc_attr($city->slug) . '" ' . $selected . '>' . esc_html($city->name) . '</option>';
+                                echo '<option value="' . esc_attr($city->slug) . '" ' . selected($search_city, $city->slug, false) . '>' . esc_html($city->name) . '</option>';
                             }
                         }
                         ?>
                     </select>
                 </div>
                 
-                <div class="edu-search-field">
-                    <select name="edu_subject" class="edu-search-select">
+                <div class="edu-filter-group">
+                    <label class="edu-filter-label">
+                        <span class="edu-filter-icon">📚</span>
+                        رشته
+                    </label>
+                    <select name="edu_subject" class="edu-filter-select">
                         <option value="">همه رشته‌ها</option>
                         <?php
                         $subjects = get_terms(array('taxonomy' => 'subject', 'hide_empty' => false));
                         if ($subjects && !is_wp_error($subjects)) {
                             foreach ($subjects as $subject) {
-                                $selected = (isset($_GET['edu_subject']) && $_GET['edu_subject'] == $subject->slug) ? 'selected' : '';
-                                echo '<option value="' . esc_attr($subject->slug) . '" ' . $selected . '>' . esc_html($subject->name) . '</option>';
+                                echo '<option value="' . esc_attr($subject->slug) . '" ' . selected($search_subject, $subject->slug, false) . '>' . esc_html($subject->name) . '</option>';
                             }
                         }
                         ?>
                     </select>
                 </div>
                 
-                <div class="edu-search-field">
-                    <button type="submit" class="edu-search-button">جستجو</button>
+                <div class="edu-filter-group">
+                    <label class="edu-filter-label">
+                        <span class="edu-filter-icon">⭐</span>
+                        امتیاز
+                    </label>
+                    <select name="edu_rating" class="edu-filter-select">
+                        <option value="">همه امتیازات</option>
+                        <option value="5" <?php selected($search_rating, '5'); ?>>⭐⭐⭐⭐⭐ (5)</option>
+                        <option value="4" <?php selected($search_rating, '4'); ?>>⭐⭐⭐⭐ (4+)</option>
+                        <option value="3" <?php selected($search_rating, '3'); ?>>⭐⭐⭐ (3+)</option>
+                        <option value="2" <?php selected($search_rating, '2'); ?>>⭐⭐ (2+)</option>
+                    </select>
                 </div>
             </div>
+            
+            <!-- دکمه‌های اضافی -->
+            <div class="edu-search-actions">
+                <button type="submit" class="edu-btn-search">
+                    <span class="edu-btn-icon">🔍</span>
+                    اعمال فیلترها
+                </button>
+                <a href="<?php echo strtok($_SERVER['REQUEST_URI'], '?'); ?>" class="edu-btn-reset">
+                    <span class="edu-btn-icon">🔄</span>
+                    پاک کردن فیلترها
+                </a>
+            </div>
         </form>
+        
+        <?php
+        // نمایش نتایج
+        if ($search_query || $search_type != 'all' || $search_city || $search_subject || $search_rating) {
+            echo '<div class="edu-search-results">';
+            
+            // شمارش کل نتایج
+            $total_results = 0;
+            $results_html = '';
+            
+            // تعیین نوع‌های مورد جستجو
+            $post_types = array();
+            if ($search_type == 'all' || $atts['show'] == 'all') {
+                $post_types = array('academy', 'school', 'teacher');
+            } elseif ($search_type != 'all') {
+                $post_types = array($search_type);
+            } else {
+                if ($atts['show'] == 'academies') $post_types = array('academy');
+                if ($atts['show'] == 'schools') $post_types = array('school');
+                if ($atts['show'] == 'teachers') $post_types = array('teacher');
+            }
+            
+            foreach ($post_types as $post_type) {
+                $search_results = edu_advanced_search($post_type, $search_query, $search_city, $search_subject, $search_rating);
+                
+                if ($search_results->have_posts()) {
+                    $total_results += $search_results->found_posts;
+                    
+                    $type_label = '';
+                    if ($post_type == 'academy') $type_label = 'آموزشگاه‌ها';
+                    if ($post_type == 'school') $type_label = 'مدارس';
+                    if ($post_type == 'teacher') $type_label = 'معلمین';
+                    
+                    $results_html .= '<div class="edu-results-section">';
+                    $results_html .= '<h3 class="edu-results-section-title">' . $type_label . ' <span class="edu-results-count">(' . $search_results->found_posts . ')</span></h3>';
+                    $results_html .= '<div class="edu-grid">';
+                    
+                    while ($search_results->have_posts()) {
+                        $search_results->the_post();
+                        ob_start();
+                        edu_render_card();
+                        $results_html .= ob_get_clean();
+                    }
+                    
+                    $results_html .= '</div></div>';
+                }
+                wp_reset_postdata();
+            }
+            
+            // نمایش هدر نتایج
+            echo '<div class="edu-results-header">';
+            if ($total_results > 0) {
+                echo '<h3 class="edu-results-title">✨ نتایج جستجو</h3>';
+                echo '<p class="edu-results-meta">' . $total_results . ' مورد یافت شد</p>';
+            } else {
+                echo '<div class="edu-no-results-box">';
+                echo '<div class="edu-no-results-icon">😕</div>';
+                echo '<h3 class="edu-no-results-title">موردی یافت نشد</h3>';
+                echo '<p class="edu-no-results-text">لطفاً فیلترهای مختلفی امتحان کنید یا عبارت دیگری جستجو کنید.</p>';
+                echo '</div>';
+            }
+            echo '</div>';
+            
+            // نمایش نتایج
+            echo $results_html;
+            
+            echo '</div>';
+        }
+        ?>
     </div>
-    
     <?php
-    // نمایش نتایج فیلتر شده
-    if (isset($_GET['edu_city']) || isset($_GET['edu_subject']) || !empty(get_search_query())) {
-        $city = isset($_GET['edu_city']) ? sanitize_text_field($_GET['edu_city']) : '';
-        $subject = isset($_GET['edu_subject']) ? sanitize_text_field($_GET['edu_subject']) : '';
-        
-        $filter_atts = array(
-            'limit' => 12,
-            'city' => $city,
-            'subject' => $subject,
-        );
-        
-        echo '<h3 class="edu-results-title">نتایج جستجو</h3>';
-        
-        if ($atts['show'] == 'all' || $atts['show'] == 'academies') {
-            echo '<h4>آموزشگاه‌ها</h4>';
-            echo edu_render_posts('academy', $filter_atts);
-        }
-        
-        if ($atts['show'] == 'all' || $atts['show'] == 'schools') {
-            echo '<h4>مدارس</h4>';
-            echo edu_render_posts('school', $filter_atts);
-        }
-        
-        if ($atts['show'] == 'all' || $atts['show'] == 'teachers') {
-            echo '<h4>معلمین</h4>';
-            echo edu_render_posts('teacher', $filter_atts);
-        }
-    }
-    ?>
     
-    <?php
     return ob_get_clean();
 }
 add_shortcode('edu_search', 'edu_search_shortcode');
+
+// تابع جستجوی پیشرفته
+function edu_advanced_search($post_type, $search_query = '', $city = '', $subject = '', $rating = '') {
+    $args = array(
+        'post_type' => $post_type,
+        'posts_per_page' => 50,
+        'post_status' => 'publish',
+        'meta_key' => 'display_priority',
+        'orderby' => array(
+            'meta_value_num' => 'ASC',
+            'date' => 'DESC',
+        ),
+    );
+    
+    // جستجو در عنوان و محتوا
+    if (!empty($search_query)) {
+        $args['s'] = $search_query;
+    }
+    
+    // فیلتر تاکسونومی
+    $tax_query = array();
+    
+    if (!empty($city)) {
+        $tax_query[] = array(
+            'taxonomy' => 'city',
+            'field' => 'slug',
+            'terms' => $city,
+        );
+    }
+    
+    if (!empty($subject)) {
+        $tax_query[] = array(
+            'taxonomy' => 'subject',
+            'field' => 'slug',
+            'terms' => $subject,
+        );
+    }
+    
+    if (count($tax_query) > 0) {
+        $args['tax_query'] = $tax_query;
+    }
+    
+    // فیلتر امتیاز
+    if (!empty($rating)) {
+        $args['meta_query'] = array(
+            array(
+                'key' => 'rating',
+                'value' => floatval($rating),
+                'compare' => '>=',
+                'type' => 'DECIMAL',
+            ),
+        );
+    }
+    
+    return new WP_Query($args);
+}
