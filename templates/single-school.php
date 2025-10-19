@@ -4,43 +4,42 @@
  */
 
 get_header();
-?>
 
-<div class="edu-single-wrapper">
-    <?php
+if (have_posts()) :
     while (have_posts()) : the_post();
         $phone = get_post_meta(get_the_ID(), 'phone', true);
         $email = get_post_meta(get_the_ID(), 'email', true);
         $address = get_post_meta(get_the_ID(), 'address', true);
         $website = get_post_meta(get_the_ID(), 'website', true);
-    ?>
-    
-    <article class="edu-single edu-single-school">
+?>
+
+<div class="edu-single-wrapper" style="max-width: 1200px; margin: 2rem auto; padding: 0 1rem;">
+    <article class="edu-single edu-single-school" style="background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
         
-        <!-- هدر صفحه -->
-        <div class="edu-single-header">
-            <div class="edu-back-link">
-                <a href="<?php echo get_post_type_archive_link('school'); ?>">← بازگشت به لیست</a>
+        <!-- هدر -->
+        <div class="edu-single-header" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: #fff; padding: 2rem;">
+            <div class="edu-back-link" style="margin-bottom: 1rem;">
+                <a href="<?php echo get_post_type_archive_link('school'); ?>" style="color: #fff; text-decoration: none; opacity: 0.9;">← بازگشت به لیست</a>
             </div>
             
-            <h1 class="edu-title"><?php the_title(); ?></h1>
+            <h1 style="font-size: 2.5rem; margin: 1rem 0; font-weight: 700;"><?php the_title(); ?></h1>
             
             <div class="edu-meta-top">
                 <?php
                 $city_terms = get_the_terms(get_the_ID(), 'city');
                 if ($city_terms) {
-                    echo '<div class="edu-terms">';
+                    echo '<div class="edu-terms" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.5rem 0;">';
                     foreach ($city_terms as $term) {
-                        echo '<span class="edu-term edu-term-city"><span class="dashicons dashicons-location"></span> ' . esc_html($term->name) . '</span>';
+                        echo '<span style="padding: 0.5rem 1rem; background: rgba(255,255,255,0.2); border-radius: 20px;">📍 ' . esc_html($term->name) . '</span>';
                     }
                     echo '</div>';
                 }
                 
                 $subject_terms = get_the_terms(get_the_ID(), 'subject');
                 if ($subject_terms) {
-                    echo '<div class="edu-terms">';
+                    echo '<div class="edu-terms" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.5rem 0;">';
                     foreach ($subject_terms as $term) {
-                        echo '<span class="edu-term edu-term-subject"><span class="dashicons dashicons-book"></span> ' . esc_html($term->name) . '</span>';
+                        echo '<span style="padding: 0.5rem 1rem; background: rgba(255,255,255,0.2); border-radius: 20px;">📚 ' . esc_html($term->name) . '</span>';
                     }
                     echo '</div>';
                 }
@@ -48,121 +47,54 @@ get_header();
             </div>
         </div>
         
-        <!-- تصویر شاخص -->
+        <!-- عکس -->
         <?php if (has_post_thumbnail()): ?>
             <div class="edu-featured-image">
-                <?php the_post_thumbnail('large'); ?>
+                <?php the_post_thumbnail('large', array('style' => 'width: 100%; height: auto; display: block;')); ?>
             </div>
         <?php endif; ?>
         
-        <!-- محتوای اصلی -->
-        <div class="edu-main-content">
+        <!-- محتوا -->
+        <div style="display: grid; grid-template-columns: 1fr 350px; gap: 2rem; padding: 2rem;">
             <div class="edu-content-area">
-                <h2 class="edu-section-title">درباره مدرسه</h2>
-                <div class="edu-single-content">
+                <h2 style="font-size: 1.75rem; color: #1a202c; margin: 0 0 1.5rem 0; padding-bottom: 0.75rem; border-bottom: 3px solid #e5e7eb;">درباره مدرسه</h2>
+                <div class="edu-single-content" style="font-size: 1.1rem; line-height: 1.8; color: #374151;">
                     <?php the_content(); ?>
                 </div>
             </div>
             
-            <!-- سایدبار اطلاعات -->
+            <!-- سایدبار -->
             <aside class="edu-sidebar">
-                
                 <?php if ($phone || $email || $website): ?>
-                <div class="edu-info-box edu-contact-box">
-                    <h3><span class="dashicons dashicons-phone"></span> اطلاعات تماس</h3>
-                    <ul class="edu-contact-list">
-                        <?php if ($phone): ?>
-                            <li class="edu-contact-item">
-                                <span class="edu-contact-icon">📞</span>
-                                <div class="edu-contact-info">
-                                    <strong>تلفن:</strong>
-                                    <a href="tel:<?php echo esc_attr($phone); ?>" class="edu-contact-link"><?php echo esc_html($phone); ?></a>
-                                </div>
-                            </li>
-                        <?php endif; ?>
-                        
-                        <?php if ($email): ?>
-                            <li class="edu-contact-item">
-                                <span class="edu-contact-icon">📧</span>
-                                <div class="edu-contact-info">
-                                    <strong>ایمیل:</strong>
-                                    <a href="mailto:<?php echo esc_attr($email); ?>" class="edu-contact-link"><?php echo esc_html($email); ?></a>
-                                </div>
-                            </li>
-                        <?php endif; ?>
-                        
-                        <?php if ($website): ?>
-                            <li class="edu-contact-item">
-                                <span class="edu-contact-icon">🌐</span>
-                                <div class="edu-contact-info">
-                                    <strong>وبسایت:</strong>
-                                    <a href="<?php echo esc_url($website); ?>" target="_blank" class="edu-contact-link"><?php echo esc_html($website); ?></a>
-                                </div>
-                            </li>
-                        <?php endif; ?>
-                    </ul>
+                <div style="background: #f9fafb; padding: 1.5rem; border-radius: 12px; border: 2px solid #e5e7eb; margin-bottom: 1.5rem;">
+                    <h3 style="color: #2563eb; font-size: 1.25rem; margin: 0 0 1rem 0; border-bottom: 2px solid #dbeafe; padding-bottom: 0.75rem;">📞 اطلاعات تماس</h3>
+                    <?php if ($phone): ?>
+                        <p style="margin: 0.75rem 0;"><strong>تلفن:</strong> <a href="tel:<?php echo esc_attr($phone); ?>" style="color: #2563eb;"><?php echo esc_html($phone); ?></a></p>
+                    <?php endif; ?>
+                    <?php if ($email): ?>
+                        <p style="margin: 0.75rem 0;"><strong>ایمیل:</strong> <a href="mailto:<?php echo esc_attr($email); ?>" style="color: #2563eb;"><?php echo esc_html($email); ?></a></p>
+                    <?php endif; ?>
+                    <?php if ($website): ?>
+                        <p style="margin: 0.75rem 0;"><strong>وبسایت:</strong> <a href="<?php echo esc_url($website); ?>" target="_blank" style="color: #2563eb;"><?php echo esc_html($website); ?></a></p>
+                    <?php endif; ?>
                 </div>
                 <?php endif; ?>
                 
                 <?php if ($address): ?>
-                <div class="edu-info-box edu-address-box">
-                    <h3><span class="dashicons dashicons-location-alt"></span> آدرس</h3>
-                    <p class="edu-address"><?php echo nl2br(esc_html($address)); ?></p>
+                <div style="background: #f9fafb; padding: 1.5rem; border-radius: 12px; border: 2px solid #e5e7eb; margin-bottom: 1.5rem;">
+                    <h3 style="color: #2563eb; font-size: 1.25rem; margin: 0 0 1rem 0; border-bottom: 2px solid #dbeafe; padding-bottom: 0.75rem;">📍 آدرس</h3>
+                    <p style="margin: 0; line-height: 1.6;"><?php echo nl2br(esc_html($address)); ?></p>
                 </div>
                 <?php endif; ?>
-                
-                <?php
-                $grades = get_the_terms(get_the_ID(), 'grade');
-                if ($grades):
-                ?>
-                <div class="edu-info-box edu-grades-box">
-                    <h3><span class="dashicons dashicons-welcome-learn-more"></span> مقاطع تحصیلی</h3>
-                    <div class="edu-tags">
-                        <?php foreach ($grades as $grade): ?>
-                            <span class="edu-tag"><?php echo esc_html($grade->name); ?></span>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-                <?php endif; ?>
-                
             </aside>
         </div>
         
-        <!-- مدارس مشابه -->
-        <?php
-        $related = new WP_Query(array(
-            'post_type' => 'school',
-            'posts_per_page' => 3,
-            'post__not_in' => array(get_the_ID()),
-            'orderby' => 'rand',
-        ));
-        
-        if ($related->have_posts()):
-        ?>
-        <div class="edu-related-section">
-            <h2 class="edu-section-title">مدارس دیگر</h2>
-            <div class="edu-related-grid">
-                <?php while ($related->have_posts()): $related->the_post(); ?>
-                    <div class="edu-related-item">
-                        <?php if (has_post_thumbnail()): ?>
-                            <div class="edu-related-image">
-                                <a href="<?php the_permalink(); ?>">
-                                    <?php the_post_thumbnail('medium'); ?>
-                                </a>
-                            </div>
-                        <?php endif; ?>
-                        <h3 class="edu-related-title">
-                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                        </h3>
-                    </div>
-                <?php endwhile; wp_reset_postdata(); ?>
-            </div>
-        </div>
-        <?php endif; ?>
-        
     </article>
-    
-    <?php endwhile; ?>
 </div>
 
-<?php get_footer(); ?>
+<?php
+    endwhile;
+endif;
+
+get_footer();
+?>

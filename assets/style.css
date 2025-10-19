@@ -489,6 +489,86 @@
     margin: 0.25rem;
 }
 
+/* فرم جستجو */
+.edu-search-box {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 2rem 0;
+}
+
+.edu-search-form {
+    width: 100%;
+}
+
+.edu-search-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 1rem;
+    align-items: center;
+}
+
+.edu-search-field {
+    width: 100%;
+}
+
+.edu-search-input,
+.edu-search-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.edu-search-input:focus,
+.edu-search-select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.edu-search-button {
+    padding: 0.75rem 2rem;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: inherit;
+}
+
+.edu-search-button:hover {
+    background: #1e40af;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.edu-results-title {
+    font-size: 1.5rem;
+    color: #1a202c;
+    margin: 2rem 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid #2563eb;
+}
+
+/* ریسپانسیو فرم جستجو */
+@media (max-width: 768px) {
+    .edu-search-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .edu-search-button {
+        width: 100%;
+    }
+}
+
 /* انیمیشن */
 @keyframes fadeIn {
     from {
@@ -507,7 +587,7 @@
 
 /* پرینت */
 @media print {
-    .edu-button {
+    .edu-button, .edu-search-box {
         display: none;
     }
 }
