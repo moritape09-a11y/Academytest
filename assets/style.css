@@ -594,6 +594,120 @@
     text-align: justify;
 }
 
+/* امتیاز و ستاره‌ها */
+.edu-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.75rem 0;
+}
+
+.edu-star {
+    font-size: 1.1rem;
+    display: inline-block;
+}
+
+.edu-star-full {
+    color: #fbbf24;
+}
+
+.edu-star-half {
+    color: #fbbf24;
+}
+
+.edu-star-empty {
+    color: #d1d5db;
+}
+
+.edu-rating-text {
+    font-size: 0.875rem;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+.edu-rating-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 0.5rem 0.75rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+}
+
+.edu-rating-badge .edu-star {
+    font-size: 0.9rem;
+}
+
+.edu-rating-number {
+    font-weight: 700;
+    margin-right: 0.25rem;
+}
+
+/* آیکون‌های شبکه اجتماعی */
+.edu-social-links {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+}
+
+.edu-social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+
+.edu-social-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.edu-social-telegram {
+    background: linear-gradient(135deg, #0088cc 0%, #229ED9 100%);
+    color: #fff;
+}
+
+.edu-social-telegram:hover {
+    background: linear-gradient(135deg, #0077b3 0%, #1e8fc4 100%);
+    color: #fff;
+}
+
+.edu-social-instagram {
+    background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
+    color: #fff;
+}
+
+.edu-social-instagram:hover {
+    background: linear-gradient(135deg, #7232a1 0%, #e91a1a 50%, #e3a03f 100%);
+    color: #fff;
+}
+
+.edu-social-whatsapp {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    color: #fff;
+}
+
+.edu-social-whatsapp:hover {
+    background: linear-gradient(135deg, #20b858 0%, #0f7268 100%);
+    color: #fff;
+}
+
+.edu-social-icon {
+    font-size: 1.25rem;
+}
+
 /* پرینت */
 @media print {
     .edu-button, .edu-search-box {

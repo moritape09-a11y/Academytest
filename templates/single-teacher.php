@@ -11,6 +11,11 @@ if (have_posts()) :
         $email = get_post_meta(get_the_ID(), 'email', true);
         $experience = get_post_meta(get_the_ID(), 'experience', true);
         $price = get_post_meta(get_the_ID(), 'price', true);
+        $telegram = get_post_meta(get_the_ID(), 'telegram', true);
+        $instagram = get_post_meta(get_the_ID(), 'instagram', true);
+        $whatsapp = get_post_meta(get_the_ID(), 'whatsapp', true);
+        $rating = get_post_meta(get_the_ID(), 'rating', true);
+        if (empty($rating)) $rating = 5;
 ?>
 
 <div class="edu-single-wrapper" style="max-width: 1200px; margin: 2rem auto; padding: 0 1rem;">
@@ -23,6 +28,20 @@ if (have_posts()) :
             </div>
             
             <h1 style="font-size: 2.5rem; margin: 1rem 0; font-weight: 700;"><?php the_title(); ?></h1>
+            
+            <?php if ($rating): ?>
+                <div style="margin: 1rem 0;">
+                    <div class="edu-rating" style="font-size: 1.5rem;">
+                        <?php 
+                        if (function_exists('edu_render_rating')) {
+                            echo edu_render_rating($rating);
+                        }
+                        ?>
+                        <span style="font-size: 1.25rem; font-weight: 700; margin-right: 0.5rem;"><?php echo number_format($rating, 1); ?></span>
+                        <span style="font-size: 1rem; opacity: 0.9;">(امتیاز)</span>
+                    </div>
+                </div>
+            <?php endif; ?>
             
             <div class="edu-meta-top">
                 <?php
@@ -86,6 +105,38 @@ if (have_posts()) :
                     <?php if ($email): ?>
                         <p style="margin: 0.75rem 0;"><strong>ایمیل:</strong> <a href="mailto:<?php echo esc_attr($email); ?>" style="color: #2563eb;"><?php echo esc_html($email); ?></a></p>
                     <?php endif; ?>
+                </div>
+                <?php endif; ?>
+                
+                <?php if ($telegram || $instagram || $whatsapp): ?>
+                <div style="background: #f9fafb; padding: 1.5rem; border-radius: 12px; border: 2px solid #e5e7eb;">
+                    <h3 style="color: #2563eb; font-size: 1.25rem; margin: 0 0 1rem 0; border-bottom: 2px solid #dbeafe; padding-bottom: 0.75rem;">🌐 شبکه‌های اجتماعی</h3>
+                    <div class="edu-social-links">
+                        <?php if ($telegram): 
+                            $tg_link = (strpos($telegram, 'http') === 0) ? $telegram : 'https://t.me/' . ltrim($telegram, '@');
+                        ?>
+                            <a href="<?php echo esc_url($tg_link); ?>" target="_blank" class="edu-social-link edu-social-telegram">
+                                <span class="edu-social-icon">✈️</span>
+                                <span>تلگرام</span>
+                            </a>
+                        <?php endif; ?>
+                        
+                        <?php if ($instagram): 
+                            $ig_link = (strpos($instagram, 'http') === 0) ? $instagram : 'https://instagram.com/' . ltrim($instagram, '@');
+                        ?>
+                            <a href="<?php echo esc_url($ig_link); ?>" target="_blank" class="edu-social-link edu-social-instagram">
+                                <span class="edu-social-icon">📷</span>
+                                <span>اینستاگرام</span>
+                            </a>
+                        <?php endif; ?>
+                        
+                        <?php if ($whatsapp): ?>
+                            <a href="https://wa.me/<?php echo esc_attr($whatsapp); ?>" target="_blank" class="edu-social-link edu-social-whatsapp">
+                                <span class="edu-social-icon">💬</span>
+                                <span>واتساپ</span>
+                            </a>
+                        <?php endif; ?>
+                    </div>
                 </div>
                 <?php endif; ?>
             </aside>

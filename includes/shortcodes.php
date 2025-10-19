@@ -47,6 +47,11 @@ function edu_render_posts($post_type, $atts) {
         'post_type' => $post_type,
         'posts_per_page' => intval($atts['limit']),
         'post_status' => 'publish',
+        'meta_key' => 'display_priority',
+        'orderby' => array(
+            'meta_value_num' => 'ASC',
+            'date' => 'DESC',
+        ),
     );
     
     // فیلتر تاکسونومی
@@ -78,15 +83,18 @@ function edu_render_posts($post_type, $atts) {
     
     if ($query->have_posts()) {
         echo '<div class="edu-grid">';
+        
         while ($query->have_posts()) {
             $query->the_post();
             edu_render_card();
         }
+        
         echo '</div>';
-        wp_reset_postdata();
     } else {
         echo '<p class="edu-no-results">موردی یافت نشد.</p>';
     }
+    
+    wp_reset_postdata();
     
     return ob_get_clean();
 }
@@ -94,6 +102,8 @@ function edu_render_posts($post_type, $atts) {
 // تابع نمایش کارت
 function edu_render_card() {
     $phone = get_post_meta(get_the_ID(), 'phone', true);
+    $rating = get_post_meta(get_the_ID(), 'rating', true);
+    if (empty($rating)) $rating = 5;
     ?>
     <div class="edu-card">
         <?php if (has_post_thumbnail()): ?>
@@ -101,11 +111,26 @@ function edu_render_card() {
                 <a href="<?php the_permalink(); ?>">
                     <?php the_post_thumbnail('medium'); ?>
                 </a>
+                <?php if ($rating): ?>
+                    <div class="edu-rating-badge">
+                        <?php echo edu_render_rating($rating); ?>
+                        <span class="edu-rating-number"><?php echo number_format($rating, 1); ?></span>
+                    </div>
+                <?php endif; ?>
             </div>
         <?php endif; ?>
         
         <div class="edu-card-content">
             <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+            
+            <?php
+            // نمایش امتیاز
+            if ($rating): ?>
+                <div class="edu-rating">
+                    <?php echo edu_render_rating($rating); ?>
+                    <span class="edu-rating-text">(<?php echo number_format($rating, 1); ?>)</span>
+                </div>
+            <?php endif; ?>
             
             <?php
             $terms = get_the_terms(get_the_ID(), 'city');
@@ -122,10 +147,8 @@ function edu_render_card() {
             // نمایش خلاصه
             $excerpt = '';
             if (has_excerpt()) {
-                // اگر خلاصه دارد
                 $excerpt = get_the_excerpt();
             } else {
-                // اگر خلاصه ندارد، از محتوا بگیر
                 $content = get_the_content();
                 $content = strip_shortcodes($content);
                 $content = wp_strip_all_tags($content);
@@ -145,6 +168,33 @@ function edu_render_card() {
         </div>
     </div>
     <?php
+}
+
+// تابع نمایش ستاره‌ها
+function edu_render_rating($rating) {
+    $rating = floatval($rating);
+    $full_stars = floor($rating);
+    $half_star = ($rating - $full_stars) >= 0.5 ? 1 : 0;
+    $empty_stars = 5 - $full_stars - $half_star;
+    
+    $output = '';
+    
+    // ستاره‌های پر
+    for ($i = 0; $i < $full_stars; $i++) {
+        $output .= '<span class="edu-star edu-star-full">⭐</span>';
+    }
+    
+    // ستاره نیمه
+    if ($half_star) {
+        $output .= '<span class="edu-star edu-star-half">✨</span>';
+    }
+    
+    // ستاره‌های خالی
+    for ($i = 0; $i < $empty_stars; $i++) {
+        $output .= '<span class="edu-star edu-star-empty">☆</span>';
+    }
+    
+    return $output;
 }
 
 // شورت کد فرم جستجو و فیلتر
