@@ -408,13 +408,14 @@ function edu_advanced_search($post_type, $search_query = '', $city = '', $subjec
     }
     
     // فیلتر تاکسونومی
-    $tax_query = array();
+    $tax_query = array('relation' => 'AND');
     
     if (!empty($city)) {
         $tax_query[] = array(
             'taxonomy' => 'city',
             'field' => 'slug',
             'terms' => $city,
+            'operator' => 'IN',
         );
     }
     
@@ -423,10 +424,11 @@ function edu_advanced_search($post_type, $search_query = '', $city = '', $subjec
             'taxonomy' => 'subject',
             'field' => 'slug',
             'terms' => $subject,
+            'operator' => 'IN',
         );
     }
     
-    if (count($tax_query) > 0) {
+    if (count($tax_query) > 1) { // بیشتر از 1 چون relation هم داریم
         $args['tax_query'] = $tax_query;
     }
     
