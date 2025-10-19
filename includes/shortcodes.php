@@ -456,7 +456,7 @@ function edu_advanced_search($post_type, $search_query = '', $city = '', $subjec
     }
     
     // فیلتر تاکسونومی (فیلترهای انتخابی کاربر)
-    $tax_query_filters = array('relation' => 'AND');
+    $tax_query_filters = array();
     
     if (!empty($city)) {
         $tax_query_filters[] = array(
@@ -479,16 +479,23 @@ function edu_advanced_search($post_type, $search_query = '', $city = '', $subjec
     // ترکیب tax_query ها
     $final_tax_query = array();
     
-    if (!empty($search_query) && count($tax_query_search) > 1) {
+    // اگر جستجو در taxonomy ها انجام شده
+    if (!empty($search_query) && isset($tax_query_search) && count($tax_query_search) > 1) {
         $final_tax_query[] = $tax_query_search;
     }
     
-    if (!empty($city) || !empty($subject)) {
-        if (count($tax_query_filters) > 1) {
-            $final_tax_query[] = $tax_query_filters;
+    // اگر فیلتر انتخاب شده
+    if (count($tax_query_filters) > 0) {
+        // اگر فقط یک فیلتر است، مستقیم اضافه کن
+        if (count($tax_query_filters) == 1) {
+            $final_tax_query[] = $tax_query_filters[0];
+        } else {
+            // اگر چند فیلتر است، با AND ترکیب کن
+            $final_tax_query[] = array_merge(array('relation' => 'AND'), $tax_query_filters);
         }
     }
     
+    // اگر tax_query داریم، به args اضافه کن
     if (count($final_tax_query) > 0) {
         if (count($final_tax_query) == 1) {
             $args['tax_query'] = $final_tax_query[0];
