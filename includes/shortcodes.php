@@ -118,9 +118,24 @@ function edu_render_card() {
             }
             ?>
             
-            <?php if (has_excerpt()): ?>
-                <p><?php echo wp_trim_words(get_the_excerpt(), 20); ?></p>
-            <?php endif; ?>
+            <?php
+            // نمایش خلاصه
+            $excerpt = '';
+            if (has_excerpt()) {
+                // اگر خلاصه دارد
+                $excerpt = get_the_excerpt();
+            } else {
+                // اگر خلاصه ندارد، از محتوا بگیر
+                $content = get_the_content();
+                $content = strip_shortcodes($content);
+                $content = wp_strip_all_tags($content);
+                $excerpt = $content;
+            }
+            
+            if (!empty($excerpt)) {
+                echo '<p class="edu-excerpt">' . wp_trim_words($excerpt, 25, '...') . '</p>';
+            }
+            ?>
             
             <?php if ($phone): ?>
                 <p class="edu-phone">📞 <?php echo esc_html($phone); ?></p>

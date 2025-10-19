@@ -585,6 +585,15 @@
     animation: fadeIn 0.5s ease;
 }
 
+/* خلاصه متن در کارت‌ها */
+.edu-excerpt {
+    color: #6b7280;
+    line-height: 1.7;
+    margin: 1rem 0;
+    font-size: 0.95rem;
+    text-align: justify;
+}
+
 /* پرینت */
 @media print {
     .edu-button, .edu-search-box {
