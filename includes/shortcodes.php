@@ -6,7 +6,6 @@
 defined('ABSPATH') || exit;
 
 // شورت کد آموزشگاه‌ها
-add_shortcode('academies', 'edu_academies_shortcode');
 function edu_academies_shortcode($atts) {
     $atts = shortcode_atts(array(
         'limit' => 12,
@@ -16,9 +15,9 @@ function edu_academies_shortcode($atts) {
     
     return edu_render_posts('academy', $atts);
 }
+add_shortcode('academies', 'edu_academies_shortcode');
 
 // شورت کد مدارس
-add_shortcode('schools', 'edu_schools_shortcode');
 function edu_schools_shortcode($atts) {
     $atts = shortcode_atts(array(
         'limit' => 12,
@@ -28,9 +27,9 @@ function edu_schools_shortcode($atts) {
     
     return edu_render_posts('school', $atts);
 }
+add_shortcode('schools', 'edu_schools_shortcode');
 
 // شورت کد معلمین
-add_shortcode('teachers', 'edu_teachers_shortcode');
 function edu_teachers_shortcode($atts) {
     $atts = shortcode_atts(array(
         'limit' => 12,
@@ -40,6 +39,7 @@ function edu_teachers_shortcode($atts) {
     
     return edu_render_posts('teacher', $atts);
 }
+add_shortcode('teachers', 'edu_teachers_shortcode');
 
 // تابع نمایش پست‌ها
 function edu_render_posts($post_type, $atts) {
