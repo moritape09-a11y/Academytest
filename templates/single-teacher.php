@@ -68,8 +68,8 @@ if (have_posts()) :
         
         <!-- عکس -->
         <?php if (has_post_thumbnail()): ?>
-            <div class="edu-featured-image">
-                <?php the_post_thumbnail('large', array('style' => 'width: 100%; height: auto; display: block;')); ?>
+            <div class="edu-featured-image" style="text-align: center; padding: 2rem; background: #f9fafb;">
+                <?php the_post_thumbnail('medium', array('style' => 'width: 300px; height: 300px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);')); ?>
             </div>
         <?php endif; ?>
         
@@ -93,6 +93,18 @@ if (have_posts()) :
                     <?php if ($price): ?>
                         <p style="margin: 0.75rem 0;"><strong>هزینه:</strong> <?php echo number_format($price); ?> تومان/ساعت</p>
                     <?php endif; ?>
+                </div>
+                <?php endif; ?>
+                
+                <?php 
+                // برای معلمین، آدرس ممکن است نداشته باشند (چون خصوصی تدریس می‌کنند)
+                // اما اگر دارند نمایش بده
+                $teacher_address = get_post_meta(get_the_ID(), 'address', true);
+                if ($teacher_address): 
+                ?>
+                <div style="background: #f9fafb; padding: 1.5rem; border-radius: 12px; border: 2px solid #e5e7eb; margin-bottom: 1.5rem;">
+                    <h3 style="color: #2563eb; font-size: 1.25rem; margin: 0 0 1rem 0; border-bottom: 2px solid #dbeafe; padding-bottom: 0.75rem;">📍 آدرس</h3>
+                    <p style="margin: 0; line-height: 1.8; color: #374151;"><?php echo nl2br(esc_html($teacher_address)); ?></p>
                 </div>
                 <?php endif; ?>
                 
