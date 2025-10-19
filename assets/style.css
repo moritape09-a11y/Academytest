@@ -693,10 +693,13 @@
     outline: none;
     background: transparent;
     font-family: inherit;
+    color: #1f2937;
+    font-weight: 500;
 }
 
 .edu-search-input-main::placeholder {
     color: #9ca3af;
+    font-weight: normal;
 }
 
 .edu-search-btn-main {
@@ -763,12 +766,22 @@
     cursor: pointer;
     transition: all 0.2s;
     background: #fff;
+    color: #1f2937;
+    font-weight: 500;
 }
 
 .edu-filter-select:focus {
     outline: none;
     border-color: #667eea;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.edu-filter-select option {
+    background: #fff;
+    color: #1f2937;
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-weight: normal;
 }
 
 /* دکمه‌های اضافی */

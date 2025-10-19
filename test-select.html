@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تست Select</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f0f0f0;
+            padding: 2rem;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #1f2937;
+            margin-bottom: 2rem;
+        }
+        
+        .test-group {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f9fafb;
+            border-radius: 8px;
+        }
+        
+        .test-label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+        
+        .test-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            cursor: pointer;
+            background: #fff;
+            color: #1f2937;
+            font-weight: 500;
+        }
+        
+        .test-select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .test-select option {
+            background: #fff;
+            color: #1f2937;
+            padding: 0.5rem;
+            font-size: 1rem;
+            font-weight: normal;
+        }
+        
+        .success {
+            background: #dcfce7;
+            color: #16a34a;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            border: 2px solid #16a34a;
+        }
+    </style>
+</head>
+<body>
+
+<div class="test-container">
+    <h1>🧪 تست فیلدهای Select</h1>
+    
+    <div class="test-group">
+        <label class="test-label">📋 نوع</label>
+        <select class="test-select">
+            <option value="">همه</option>
+            <option value="academy">آموزشگاه</option>
+            <option value="school">مدرسه</option>
+            <option value="teacher">معلم</option>
+        </select>
+    </div>
+    
+    <div class="test-group">
+        <label class="test-label">📍 شهر</label>
+        <select class="test-select">
+            <option value="">همه شهرها</option>
+            <option value="tehran">تهران</option>
+            <option value="esfahan">اصفهان</option>
+            <option value="shiraz">شیراز</option>
+        </select>
+    </div>
+    
+    <div class="test-group">
+        <label class="test-label">📚 رشته</label>
+        <select class="test-select">
+            <option value="">همه رشته‌ها</option>
+            <option value="english">زبان انگلیسی</option>
+            <option value="math">ریاضی</option>
+            <option value="talent">استعدادیابی</option>
+        </select>
+    </div>
+    
+    <div class="test-group">
+        <label class="test-label">⭐ امتیاز</label>
+        <select class="test-select">
+            <option value="">همه امتیازات</option>
+            <option value="5">⭐⭐⭐⭐⭐ عالی (5)</option>
+            <option value="4">⭐⭐⭐⭐ خیلی خوب (4+)</option>
+            <option value="3">⭐⭐⭐ خوب (3+)</option>
+        </select>
+    </div>
+    
+    <div class="success">
+        ✅ اگر می‌توانید همه گزینه‌ها را ببینید، یعنی مشکل حل شده است!
+    </div>
+</div>
+
+<script>
+    // نمایش مقدار انتخاب شده
+    document.querySelectorAll('.test-select').forEach(select => {
+        select.addEventListener('change', function() {
+            console.log('انتخاب شد:', this.value, this.options[this.selectedIndex].text);
+        });
+    });
+</script>
+
+</body>
+</html>
