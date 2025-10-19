@@ -708,6 +708,14 @@
     font-size: 1.25rem;
 }
 
+/* استایل‌های پایه برای صفحه single */
+.edu-main-content {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 2rem;
+    padding: 2rem;
+}
+
 /* ریسپانسیو موبایل */
 @media (max-width: 768px) {
     /* صفحه single */
@@ -741,9 +749,15 @@
     
     /* محتوای اصلی - تبدیل از grid دو ستونه به تک ستونه */
     .edu-main-content {
+        display: grid !important;
         grid-template-columns: 1fr !important;
         padding: 1rem !important;
         gap: 1.5rem !important;
+    }
+    
+    .edu-main-content > * {
+        width: 100% !important;
+        max-width: 100% !important;
     }
     
     .edu-content-area h2,

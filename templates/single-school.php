@@ -74,7 +74,7 @@ if (have_posts()) :
         <?php endif; ?>
         
         <!-- محتوا -->
-        <div class="edu-main-content" style="display: grid; grid-template-columns: 1fr 350px; gap: 2rem; padding: 2rem;">
+        <div class="edu-main-content">
             <div class="edu-content-area">
                 <h2 style="font-size: 1.75rem; color: #1a202c; margin: 0 0 1.5rem 0; padding-bottom: 0.75rem; border-bottom: 3px solid #e5e7eb;">درباره مدرسه</h2>
                 <div class="edu-single-content" style="font-size: 1.1rem; line-height: 1.8; color: #374151;">
