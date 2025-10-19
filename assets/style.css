@@ -708,6 +708,91 @@
     font-size: 1.25rem;
 }
 
+/* ریسپانسیو موبایل */
+@media (max-width: 768px) {
+    /* صفحه single */
+    .edu-single-wrapper {
+        margin: 1rem auto !important;
+        padding: 0 0.5rem !important;
+    }
+    
+    .edu-single {
+        border-radius: 8px !important;
+    }
+    
+    .edu-single-header {
+        padding: 1.5rem 1rem !important;
+    }
+    
+    .edu-single-header h1,
+    .edu-single h1 {
+        font-size: 1.75rem !important;
+    }
+    
+    /* تصویر شاخص */
+    .edu-featured-image {
+        padding: 1rem !important;
+    }
+    
+    .edu-featured-image img {
+        width: 250px !important;
+        height: 250px !important;
+    }
+    
+    /* محتوای اصلی - تبدیل از grid دو ستونه به تک ستونه */
+    .edu-main-content {
+        grid-template-columns: 1fr !important;
+        padding: 1rem !important;
+        gap: 1.5rem !important;
+    }
+    
+    .edu-content-area h2,
+    .edu-section-title {
+        font-size: 1.5rem !important;
+    }
+    
+    /* سایدبار */
+    .edu-sidebar {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    /* امتیاز */
+    .edu-rating {
+        font-size: 1.25rem !important;
+    }
+    
+    /* دکمه‌های شبکه اجتماعی */
+    .edu-social-links {
+        flex-direction: column;
+    }
+    
+    .edu-social-link {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* موبایل کوچک */
+@media (max-width: 480px) {
+    .edu-single-header h1 {
+        font-size: 1.5rem !important;
+    }
+    
+    .edu-featured-image img {
+        width: 200px !important;
+        height: 200px !important;
+    }
+    
+    .edu-main-content {
+        padding: 0.75rem !important;
+    }
+    
+    .edu-content-area h2 {
+        font-size: 1.25rem !important;
+    }
+}
+
 /* پرینت */
 @media print {
     .edu-button, .edu-search-box {

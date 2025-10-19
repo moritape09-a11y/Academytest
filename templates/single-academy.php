@@ -68,13 +68,13 @@ if (have_posts()) :
         
         <!-- عکس -->
         <?php if (has_post_thumbnail()): ?>
-            <div class="edu-featured-image" style="text-align: center; padding: 2rem; background: #f9fafb;">
-                <?php the_post_thumbnail('medium', array('style' => 'width: 300px; height: 300px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);')); ?>
+            <div class="edu-featured-image" style="text-align: center; padding: 2rem; background: #f9fafb; display: flex; justify-content: center; align-items: center;">
+                <?php the_post_thumbnail('medium', array('style' => 'width: 300px; height: 300px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin: 0 auto;')); ?>
             </div>
         <?php endif; ?>
         
         <!-- محتوا -->
-        <div style="display: grid; grid-template-columns: 1fr 350px; gap: 2rem; padding: 2rem;">
+        <div class="edu-main-content" style="display: grid; grid-template-columns: 1fr 350px; gap: 2rem; padding: 2rem;">
             <div class="edu-content-area">
                 <h2 style="font-size: 1.75rem; color: #1a202c; margin: 0 0 1.5rem 0; padding-bottom: 0.75rem; border-bottom: 3px solid #e5e7eb;">درباره آموزشگاه</h2>
                 <div class="edu-single-content" style="font-size: 1.1rem; line-height: 1.8; color: #374151;">
