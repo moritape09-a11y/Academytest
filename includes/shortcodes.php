@@ -315,7 +315,7 @@ function edu_search_shortcode($atts) {
         </form>
         
         <?php
-        // نمایش نتایج
+        // نمایش نتایج - حتی اگر فقط یک فیلد پر شده باشد
         if ($search_query || $search_type != 'all' || $search_city || $search_subject || $search_rating) {
             echo '<div class="edu-search-results">';
             
@@ -366,7 +366,11 @@ function edu_search_shortcode($atts) {
             echo '<div class="edu-results-header">';
             if ($total_results > 0) {
                 echo '<h3 class="edu-results-title">✨ نتایج جستجو</h3>';
-                echo '<p class="edu-results-meta">' . $total_results . ' مورد یافت شد</p>';
+                echo '<p class="edu-results-meta">' . $total_results . ' مورد یافت شد';
+                if ($search_query) {
+                    echo ' برای "<strong>' . esc_html($search_query) . '</strong>"';
+                }
+                echo '</p>';
             } else {
                 echo '<div class="edu-no-results-box">';
                 echo '<div class="edu-no-results-icon">😕</div>';
@@ -389,7 +393,7 @@ function edu_search_shortcode($atts) {
 }
 add_shortcode('edu_search', 'edu_search_shortcode');
 
-// تابع جستجوی پیشرفته
+// تابع جستجوی پیشرفته - جستجو در همه جا!
 function edu_advanced_search($post_type, $search_query = '', $city = '', $subject = '', $rating = '') {
     $args = array(
         'post_type' => $post_type,
@@ -402,16 +406,60 @@ function edu_advanced_search($post_type, $search_query = '', $city = '', $subjec
         ),
     );
     
-    // جستجو در عنوان و محتوا
+    // جستجوی پیشرفته در عنوان و محتوا
     if (!empty($search_query)) {
+        // جستجو در عنوان و محتوا
         $args['s'] = $search_query;
+        
+        // همچنین جستجو در taxonomy ها (رشته و شهر)
+        // اگر کاربر "طراحی سایت" تایپ کرد، در رشته‌ها هم جستجو شود
+        $matching_subjects = get_terms(array(
+            'taxonomy' => 'subject',
+            'name__like' => $search_query,
+            'hide_empty' => false,
+        ));
+        
+        $matching_cities = get_terms(array(
+            'taxonomy' => 'city',
+            'name__like' => $search_query,
+            'hide_empty' => false,
+        ));
+        
+        // اگر رشته یا شهری پیدا شد، آن‌ها را به جستجو اضافه کن
+        $tax_query_search = array('relation' => 'OR');
+        
+        if (!empty($matching_subjects)) {
+            $subject_ids = array();
+            foreach ($matching_subjects as $term) {
+                $subject_ids[] = $term->term_id;
+            }
+            $tax_query_search[] = array(
+                'taxonomy' => 'subject',
+                'field' => 'term_id',
+                'terms' => $subject_ids,
+                'operator' => 'IN',
+            );
+        }
+        
+        if (!empty($matching_cities)) {
+            $city_ids = array();
+            foreach ($matching_cities as $term) {
+                $city_ids[] = $term->term_id;
+            }
+            $tax_query_search[] = array(
+                'taxonomy' => 'city',
+                'field' => 'term_id',
+                'terms' => $city_ids,
+                'operator' => 'IN',
+            );
+        }
     }
     
-    // فیلتر تاکسونومی
-    $tax_query = array('relation' => 'AND');
+    // فیلتر تاکسونومی (فیلترهای انتخابی کاربر)
+    $tax_query_filters = array('relation' => 'AND');
     
     if (!empty($city)) {
-        $tax_query[] = array(
+        $tax_query_filters[] = array(
             'taxonomy' => 'city',
             'field' => 'slug',
             'terms' => $city,
@@ -420,7 +468,7 @@ function edu_advanced_search($post_type, $search_query = '', $city = '', $subjec
     }
     
     if (!empty($subject)) {
-        $tax_query[] = array(
+        $tax_query_filters[] = array(
             'taxonomy' => 'subject',
             'field' => 'slug',
             'terms' => $subject,
@@ -428,8 +476,25 @@ function edu_advanced_search($post_type, $search_query = '', $city = '', $subjec
         );
     }
     
-    if (count($tax_query) > 1) { // بیشتر از 1 چون relation هم داریم
-        $args['tax_query'] = $tax_query;
+    // ترکیب tax_query ها
+    $final_tax_query = array();
+    
+    if (!empty($search_query) && count($tax_query_search) > 1) {
+        $final_tax_query[] = $tax_query_search;
+    }
+    
+    if (!empty($city) || !empty($subject)) {
+        if (count($tax_query_filters) > 1) {
+            $final_tax_query[] = $tax_query_filters;
+        }
+    }
+    
+    if (count($final_tax_query) > 0) {
+        if (count($final_tax_query) == 1) {
+            $args['tax_query'] = $final_tax_query[0];
+        } else {
+            $args['tax_query'] = array_merge(array('relation' => 'AND'), $final_tax_query);
+        }
     }
     
     // فیلتر امتیاز
