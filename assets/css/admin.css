@@ -1,0 +1,63 @@
+/**
+ * Educational Directory - Admin Styles
+ * 
+ * @package EducationalDirectory
+ * @version 3.0.0
+ */
+
+/* Meta Box Styles */
+.edu-meta-box {
+    background: #f9fafb;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.edu-meta-box p {
+    margin: 0 0 1rem 0;
+}
+
+.edu-meta-box p:last-child {
+    margin-bottom: 0;
+}
+
+.edu-meta-box label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #1f2937;
+}
+
+.edu-meta-box input[type="text"],
+.edu-meta-box input[type="email"],
+.edu-meta-box input[type="url"],
+.edu-meta-box input[type="number"],
+.edu-meta-box textarea,
+.edu-meta-box select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.edu-meta-box input:focus,
+.edu-meta-box textarea:focus,
+.edu-meta-box select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.edu-meta-box small {
+    display: block;
+    color: #6b7280;
+    font-size: 12px;
+    margin-top: 0.25rem;
+}
+
+/* Icons in labels */
+.edu-meta-box label strong {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
