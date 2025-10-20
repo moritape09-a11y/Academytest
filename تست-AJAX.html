@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تست AJAX - دمو کامل</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .demo-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .demo-header h1 {
+            margin: 0 0 0.5rem 0;
+            color: #1f2937;
+            font-size: 2.5rem;
+        }
+        .demo-header p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 1.2rem;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .feature-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .feature-title {
+            color: #1f2937;
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin: 0 0 0.5rem 0;
+        }
+        .feature-desc {
+            color: #6b7280;
+            margin: 0;
+            line-height: 1.6;
+        }
+        .demo-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .demo-section h2 {
+            color: #1f2937;
+            margin-top: 0;
+        }
+        .steps {
+            list-style: none;
+            padding: 0;
+            counter-reset: step;
+        }
+        .steps li {
+            counter-increment: step;
+            padding: 1rem 1rem 1rem 3rem;
+            margin-bottom: 1rem;
+            background: #f3f4f6;
+            border-radius: 8px;
+            position: relative;
+        }
+        .steps li::before {
+            content: counter(step);
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .comparison-box {
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .comparison-box.old {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            border: 2px solid #ef4444;
+        }
+        .comparison-box.new {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            border: 2px solid #10b981;
+        }
+        .comparison-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        .comparison-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .comparison-list {
+            list-style: none;
+            padding: 0;
+            text-align: right;
+        }
+        .comparison-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .tech-badge {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 1.25rem 3rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 1.25rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+            transition: all 0.3s ease;
+            margin: 2rem auto;
+            display: block;
+            text-align: center;
+            max-width: 400px;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
+        }
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+            .demo-header h1 {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="demo-header">
+            <h1>🚀 پلاگین AJAX حرفه‌ای</h1>
+            <p>جستجوی زنده، بدون رفرش، با انیمیشن‌های زیبا</p>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">Live Search</h3>
+                <p class="feature-desc">جستجو همزمان با تایپ، بدون نیاز به کلیک دکمه</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎬</div>
+                <h3 class="feature-title">Smooth Animations</h3>
+                <p class="feature-desc">انیمیشن‌های زیبا برای loading و نمایش نتایج</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3 class="feature-title">No Refresh</h3>
+                <p class="feature-desc">بدون رفرش صفحه، تجربه کاربری روان</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3 class="feature-title">Responsive</h3>
+                <p class="feature-desc">بهینه برای موبایل، تبلت و دسکتاپ</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔗</div>
+                <h3 class="feature-title">URL State</h3>
+                <p class="feature-desc">لینک قابل اشتراک، دکمه Back کار می‌کند</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔐</div>
+                <h3 class="feature-title">Secure</h3>
+                <p class="feature-desc">REST API با nonce، input sanitization</p>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>📋 چطور کار می‌کند؟</h2>
+            <ol class="steps">
+                <li><strong>کاربر شروع به تایپ می‌کند</strong><br>مثلاً: "طراحی سایت"</li>
+                <li><strong>Debounce (500ms)</strong><br>صبر می‌کند تا کاربر تایپ را تمام کند</li>
+                <li><strong>ارسال AJAX Request</strong><br>به REST API: /wp-json/edu/v1/search</li>
+                <li><strong>نمایش Loading</strong><br>Spinner + Skeleton Cards</li>
+                <li><strong>دریافت و نمایش نتایج</strong><br>با Fade-in Animation</li>
+                <li><strong>Update URL</strong><br>بدون reload صفحه</li>
+            </ol>
+        </div>
+
+        <div class="demo-section">
+            <h2>⚔️ قبل و بعد</h2>
+            <div class="comparison">
+                <div class="comparison-box old">
+                    <div class="comparison-icon">❌</div>
+                    <div class="comparison-title">قبل</div>
+                    <ul class="comparison-list">
+                        <li>رفرش کامل صفحه</li>
+                        <li>بدون animation</li>
+                        <li>تجربه کاربری ضعیف</li>
+                        <li>کند و خسته‌کننده</li>
+                        <li>URL تغییر نمی‌کرد</li>
+                        <li>Back button مشکل داشت</li>
+                    </ul>
+                </div>
+
+                <div class="comparison-box new">
+                    <div class="comparison-icon">✅</div>
+                    <div class="comparison-title">بعد</div>
+                    <ul class="comparison-list">
+                        <li>بدون رفرش (AJAX)</li>
+                        <li>Animations زیبا</li>
+                        <li>تجربه کاربری حرفه‌ای</li>
+                        <li>سریع و روان</li>
+                        <li>URL state management</li>
+                        <li>Browser history کار می‌کند</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>🛠️ تکنولوژی‌ها</h2>
+            <div class="tech-stack">
+                <div class="tech-badge">REST API</div>
+                <div class="tech-badge">jQuery AJAX</div>
+                <div class="tech-badge">JavaScript ES6</div>
+                <div class="tech-badge">CSS3 Animations</div>
+                <div class="tech-badge">History API</div>
+                <div class="tech-badge">Debounce</div>
+                <div class="tech-badge">JSON</div>
+                <div class="tech-badge">Responsive</div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>🎯 ویژگی‌های کلیدی</h2>
+            <ul class="comparison-list">
+                <li>✅ <strong>Live Search:</strong> جستجو همزمان با تایپ (با debounce 500ms)</li>
+                <li>✅ <strong>Loading States:</strong> Spinner + Skeleton screens</li>
+                <li>✅ <strong>Error Handling:</strong> پیام‌های خطای زیبا</li>
+                <li>✅ <strong>Empty States:</strong> حالت‌های خالی خلاقانه</li>
+                <li>✅ <strong>Smooth Scrolling:</strong> اسکرول خودکار به نتایج</li>
+                <li>✅ <strong>URL Management:</strong> لینک قابل اشتراک</li>
+                <li>✅ <strong>Browser History:</strong> دکمه‌های Back/Forward</li>
+                <li>✅ <strong>Security:</strong> Nonce + Sanitization</li>
+                <li>✅ <strong>Performance:</strong> Request abort + Debounce</li>
+                <li>✅ <strong>Accessibility:</strong> Focus states + Keyboard nav</li>
+            </ul>
+        </div>
+
+        <a href="#install" class="cta-button">
+            🚀 همین الان نصب کنید!
+        </a>
+
+        <div class="demo-section" id="install">
+            <h2>📦 نصب</h2>
+            <ol class="steps">
+                <li>فایل‌های زیر را آپلود کنید:
+                    <ul>
+                        <li>includes/ajax-handler.php</li>
+                        <li>assets/ajax-search.js</li>
+                        <li>assets/style.css</li>
+                        <li>educational-directory.php</li>
+                    </ul>
+                </li>
+                <li>کش مرورگر را پاک کنید: <code>Ctrl + Shift + R</code></li>
+                <li>صفحه جستجو را باز کنید</li>
+                <li>شروع به تایپ کنید و لذت ببرید! 🎉</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>

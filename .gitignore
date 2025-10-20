@@ -1,0 +1,32 @@
+# وردپرس
+.DS_Store
+Thumbs.db
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Node modules (اگر در آینده اضافه شود)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Composer (اگر در آینده اضافه شود)
+vendor/
+composer.lock
+
+# فایل‌های موقت
+*.tmp
+*.bak
+*.cache
+
+# فایل‌های محیط توسعه
+.env
+.env.local
+
+# فایل‌های آپلود (برای تست)
+uploads/

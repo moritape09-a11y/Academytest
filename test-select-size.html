@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تست اندازه Select</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f0f0f0;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #1f2937;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .box {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .box h2 {
+            color: #dc2626;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+        
+        .box.new h2 {
+            color: #16a34a;
+        }
+        
+        /* استایل قدیمی */
+        .old-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            background: #fff;
+            color: #1f2937;
+            font-weight: 500;
+        }
+        
+        /* استایل جدید */
+        .new-select {
+            width: 100%;
+            min-width: 180px;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            line-height: 1.5;
+            cursor: pointer;
+            background: #fff;
+            color: #1f2937;
+            font-weight: 500;
+            height: auto;
+            min-height: 48px;
+        }
+        
+        .new-select option {
+            padding: 0.75rem 1rem;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            min-height: 40px;
+        }
+        
+        .label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #374151;
+        }
+        
+        .test-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .info {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            border: 2px solid #3b82f6;
+        }
+        
+        .success {
+            background: #dcfce7;
+            color: #16a34a;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            border: 2px solid #16a34a;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🔍 مقایسه اندازه Select - قبل و بعد</h1>
+    
+    <div class="comparison">
+        <!-- قدیمی -->
+        <div class="box old">
+            <h2>❌ قبل (کوچک و نامرئی)</h2>
+            
+            <div class="test-group">
+                <label class="label">نوع</label>
+                <select class="old-select">
+                    <option>همه</option>
+                    <option>آموزشگاه</option>
+                    <option>مدرسه</option>
+                    <option>معلم</option>
+                </select>
+            </div>
+            
+            <div class="test-group">
+                <label class="label">رشته</label>
+                <select class="old-select">
+                    <option>همه رشته‌ها</option>
+                    <option>زبان انگلیسی</option>
+                    <option>ریاضی و فیزیک</option>
+                    <option>استعدادیابی و مشاوره</option>
+                </select>
+            </div>
+            
+            <div class="test-group">
+                <label class="label">امتیاز</label>
+                <select class="old-select">
+                    <option>همه امتیازات</option>
+                    <option>⭐⭐⭐⭐⭐ عالی (5 ستاره)</option>
+                    <option>⭐⭐⭐⭐ خیلی خوب (4+)</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- جدید -->
+        <div class="box new">
+            <h2>✅ بعد (بزرگ و خوانا)</h2>
+            
+            <div class="test-group">
+                <label class="label">نوع</label>
+                <select class="new-select">
+                    <option>همه</option>
+                    <option>آموزشگاه</option>
+                    <option>مدرسه</option>
+                    <option>معلم</option>
+                </select>
+            </div>
+            
+            <div class="test-group">
+                <label class="label">رشته</label>
+                <select class="new-select">
+                    <option>همه رشته‌ها</option>
+                    <option>زبان انگلیسی</option>
+                    <option>ریاضی و فیزیک</option>
+                    <option>استعدادیابی و مشاوره</option>
+                </select>
+            </div>
+            
+            <div class="test-group">
+                <label class="label">امتیاز</label>
+                <select class="new-select">
+                    <option>همه امتیازات</option>
+                    <option>⭐⭐⭐⭐⭐ عالی (5 ستاره)</option>
+                    <option>⭐⭐⭐⭐ خیلی خوب (4+)</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <div class="info">
+        <strong>📏 تغییرات اندازه:</strong>
+        <ul style="margin: 0.5rem 0 0 1.5rem; line-height: 1.8;">
+            <li>ارتفاع جعبه: 40px → 48px (بزرگتر شد)</li>
+            <li>padding: 0.75rem → 0.875rem 1rem (بیشتر شد)</li>
+            <li>font-size: 1rem → 1.05rem (بزرگتر شد)</li>
+            <li>line-height: اضافه شد (1.5)</li>
+            <li>min-width: اضافه شد (180px)</li>
+        </ul>
+    </div>
+    
+    <div class="success">
+        <strong>✅ نتیجه:</strong> حالا متن‌ها کاملاً خوانا و راحت قابل انتخاب هستند!
+    </div>
+</div>
+
+</body>
+</html>

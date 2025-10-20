@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تست موبایل</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f0f0f0;
+        }
+        
+        /* استایل‌های پایه */
+        .edu-single-wrapper {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .edu-single {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .edu-single-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 2rem;
+        }
+        
+        .edu-single-header h1 {
+            font-size: 2.5rem;
+            margin: 1rem 0;
+        }
+        
+        .edu-featured-image {
+            text-align: center;
+            padding: 2rem;
+            background: #f9fafb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .edu-featured-image img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin: 0 auto;
+        }
+        
+        /* محتوای اصلی */
+        .edu-main-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            padding: 2rem;
+        }
+        
+        .edu-content-area h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .edu-sidebar {
+            width: 100%;
+        }
+        
+        .edu-info-box {
+            background: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid #e5e7eb;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* موبایل */
+        @media (max-width: 768px) {
+            .edu-single-wrapper {
+                margin: 1rem auto !important;
+                padding: 0 0.5rem !important;
+            }
+            
+            .edu-single-header {
+                padding: 1.5rem 1rem !important;
+            }
+            
+            .edu-single-header h1 {
+                font-size: 1.75rem !important;
+            }
+            
+            .edu-featured-image {
+                padding: 1rem !important;
+            }
+            
+            .edu-featured-image img {
+                width: 250px !important;
+                height: 250px !important;
+            }
+            
+            .edu-main-content {
+                display: grid !important;
+                grid-template-columns: 1fr !important;
+                padding: 1rem !important;
+                gap: 1.5rem !important;
+            }
+            
+            .edu-main-content > * {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .edu-single-header h1 {
+                font-size: 1.5rem !important;
+            }
+            
+            .edu-featured-image img {
+                width: 200px !important;
+                height: 200px !important;
+            }
+            
+            .edu-main-content {
+                padding: 0.75rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="edu-single-wrapper">
+    <article class="edu-single">
+        <div class="edu-single-header">
+            <h1>آموزشگاه زبان تست</h1>
+            <div>⭐⭐⭐⭐⭐ 5.0</div>
+        </div>
+        
+        <div class="edu-featured-image">
+            <img src="https://via.placeholder.com/300" alt="تست">
+        </div>
+        
+        <div class="edu-main-content">
+            <div class="edu-content-area">
+                <h2>درباره آموزشگاه</h2>
+                <p>این یک متن تستی است برای بررسی responsive بودن. این متن باید در موبایل به خوبی نمایش داده شود و با سایدبار قاطی نشود. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</p>
+            </div>
+            
+            <aside class="edu-sidebar">
+                <div class="edu-info-box">
+                    <h3>📍 آدرس</h3>
+                    <p>تهران، خیابان ولیعصر، نبش خیابان...</p>
+                </div>
+                
+                <div class="edu-info-box">
+                    <h3>📞 تماس</h3>
+                    <p>تلفن: 021-12345678</p>
+                    <p>ایمیل: info@test.com</p>
+                </div>
+            </aside>
+        </div>
+    </article>
+</div>
+
+<div style="position: fixed; bottom: 10px; right: 10px; background: #000; color: #fff; padding: 10px; border-radius: 8px; font-size: 12px;">
+    <div id="screenSize"></div>
+</div>
+
+<script>
+function updateScreenSize() {
+    document.getElementById('screenSize').innerHTML = 
+        'عرض: ' + window.innerWidth + 'px<br>' +
+        'ارتفاع: ' + window.innerHeight + 'px';
+}
+updateScreenSize();
+window.addEventListener('resize', updateScreenSize);
+</script>
+
+</body>
+</html>

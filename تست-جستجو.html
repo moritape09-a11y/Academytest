@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تست جستجوگر</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f0f0f0;
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="edu-advanced-search">
+    <div class="edu-search-header">
+        <h2 class="edu-search-title">🔍 جستجوی پیشرفته</h2>
+        <p class="edu-search-subtitle">آموزشگاه، مدرسه یا معلم مورد نظر خود را پیدا کنید</p>
+    </div>
+    
+    <form class="edu-search-form-advanced">
+        <div class="edu-search-main">
+            <div class="edu-search-icon">🔍</div>
+            <input type="text" class="edu-search-input-main" placeholder="نام آموزشگاه، مدرسه، معلم یا رشته را جستجو کنید...">
+            <button type="submit" class="edu-search-btn-main">جستجو</button>
+        </div>
+        
+        <div class="edu-search-filters">
+            <div class="edu-filter-group">
+                <label class="edu-filter-label">
+                    <span class="edu-filter-icon">📋</span>
+                    نوع
+                </label>
+                <select class="edu-filter-select">
+                    <option>همه</option>
+                    <option>آموزشگاه</option>
+                    <option>مدرسه</option>
+                    <option>معلم</option>
+                </select>
+            </div>
+            
+            <div class="edu-filter-group">
+                <label class="edu-filter-label">
+                    <span class="edu-filter-icon">📍</span>
+                    شهر
+                </label>
+                <select class="edu-filter-select">
+                    <option>همه شهرها</option>
+                    <option>تهران</option>
+                    <option>اصفهان</option>
+                </select>
+            </div>
+            
+            <div class="edu-filter-group">
+                <label class="edu-filter-label">
+                    <span class="edu-filter-icon">📚</span>
+                    رشته
+                </label>
+                <select class="edu-filter-select">
+                    <option>همه رشته‌ها</option>
+                    <option>زبان انگلیسی</option>
+                    <option>ریاضی</option>
+                </select>
+            </div>
+            
+            <div class="edu-filter-group">
+                <label class="edu-filter-label">
+                    <span class="edu-filter-icon">⭐</span>
+                    امتیاز
+                </label>
+                <select class="edu-filter-select">
+                    <option>همه امتیازات</option>
+                    <option>⭐⭐⭐⭐⭐ (5)</option>
+                    <option>⭐⭐⭐⭐ (4+)</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="edu-search-actions">
+            <button type="submit" class="edu-btn-search">
+                <span class="edu-btn-icon">🔍</span>
+                اعمال فیلترها
+            </button>
+            <a href="#" class="edu-btn-reset">
+                <span class="edu-btn-icon">🔄</span>
+                پاک کردن فیلترها
+            </a>
+        </div>
+    </form>
+</div>
+
+<div style="text-align: center; margin-top: 2rem; color: #666;">
+    <p>✨ این یک نمونه تست است - انیمیشن‌ها را ببینید!</p>
+</div>
+
+</body>
+</html>
