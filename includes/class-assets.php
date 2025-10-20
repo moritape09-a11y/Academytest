@@ -24,12 +24,12 @@ class EDU_Assets {
      * Enqueue frontend assets
      */
     public static function enqueue_frontend_assets() {
-        // Styles
+        // Modern UI Styles
         wp_enqueue_style(
-            'edu-dir-main',
-            EDU_DIR_ASSETS . 'css/main.css',
+            'edu-dir-modern-ui',
+            EDU_DIR_ASSETS . 'css/modern-ui.css',
             array(),
-            EDU_DIR_VERSION
+            EDU_DIR_VERSION . '.1'
         );
         
         // Scripts
