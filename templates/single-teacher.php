@@ -1,165 +1,306 @@
 <?php
 /**
- * تمپلیت تک معلم
+ * Single Teacher Template - Premium Design
+ * 3D Effects, Glassmorphism, Modern UI/UX
+ * 
+ * @package EducationalDirectory
+ * @version 3.1.0
  */
 
 get_header();
 
-if (have_posts()) :
-    while (have_posts()) : the_post();
-        $phone = get_post_meta(get_the_ID(), 'phone', true);
-        $email = get_post_meta(get_the_ID(), 'email', true);
-        $experience = get_post_meta(get_the_ID(), 'experience', true);
-        $price = get_post_meta(get_the_ID(), 'price', true);
-        $telegram = get_post_meta(get_the_ID(), 'telegram', true);
-        $instagram = get_post_meta(get_the_ID(), 'instagram', true);
-        $whatsapp = get_post_meta(get_the_ID(), 'whatsapp', true);
-        $rating = get_post_meta(get_the_ID(), 'rating', true);
-        if (empty($rating)) $rating = 5;
-?>
-
-<div class="edu-single-wrapper" style="max-width: 1200px; margin: 2rem auto; padding: 0 1rem;">
-    <article class="edu-single edu-single-teacher" style="background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+while (have_posts()) : the_post();
+    
+    // Get meta data
+    $phone = get_post_meta(get_the_ID(), 'phone', true);
+    $email = get_post_meta(get_the_ID(), 'email', true);
+    $website = get_post_meta(get_the_ID(), 'website', true);
+    $address = get_post_meta(get_the_ID(), 'address', true);
+    $telegram = get_post_meta(get_the_ID(), 'telegram', true);
+    $instagram = get_post_meta(get_the_ID(), 'instagram', true);
+    $whatsapp = get_post_meta(get_the_ID(), 'whatsapp', true);
+    $rating = floatval(get_post_meta(get_the_ID(), 'rating', true));
+    $experience = get_post_meta(get_the_ID(), 'experience', true);
+    $price = get_post_meta(get_the_ID(), 'price', true);
+    
+    // Get taxonomies
+    $cities = wp_get_post_terms(get_the_ID(), 'city');
+    $subjects = wp_get_post_terms(get_the_ID(), 'subject');
+    $grades = wp_get_post_terms(get_the_ID(), 'grade');
+    
+    ?>
+    
+    <article id="post-<?php the_ID(); ?>" <?php post_class('edu-single-post'); ?>>
         
-        <!-- هدر -->
-        <div class="edu-single-header" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: #fff; padding: 2rem;">
-            <div class="edu-back-link" style="margin-bottom: 1rem;">
-                <a href="<?php echo get_post_type_archive_link('teacher'); ?>" style="color: #fff; text-decoration: none; opacity: 0.9;">← بازگشت به لیست</a>
-            </div>
-            
-            <h1 style="font-size: 2.5rem; margin: 1rem 0; font-weight: 700;"><?php the_title(); ?></h1>
-            
-            <?php if ($rating): ?>
-                <div style="margin: 1rem 0;">
-                    <div class="edu-rating" style="font-size: 1.5rem;">
+        <!-- Hero Section -->
+        <div class="edu-single-hero edu-hero-teacher">
+            <div class="edu-hero-background"></div>
+            <div class="edu-hero-overlay"></div>
+            <div class="edu-hero-content">
+                <div class="edu-hero-badge edu-badge-teacher">
+                    <span class="edu-badge-icon">👨‍🏫</span>
+                    <span class="edu-badge-text">معلم</span>
+                </div>
+                
+                <h1 class="edu-hero-title"><?php the_title(); ?></h1>
+                
+                <?php if ($rating > 0): ?>
+                    <div class="edu-hero-rating">
                         <?php 
-                        if (function_exists('edu_render_rating')) {
-                            echo edu_render_rating($rating);
+                        $full_stars = floor($rating);
+                        $has_half = ($rating - $full_stars) >= 0.5;
+                        $empty_stars = 5 - $full_stars - ($has_half ? 1 : 0);
+                        
+                        for ($i = 0; $i < $full_stars; $i++) {
+                            echo '<span class="edu-star edu-star-full">★</span>';
+                        }
+                        if ($has_half) {
+                            echo '<span class="edu-star edu-star-half">★</span>';
+                        }
+                        for ($i = 0; $i < $empty_stars; $i++) {
+                            echo '<span class="edu-star edu-star-empty">☆</span>';
                         }
                         ?>
-                        <span style="font-size: 1.25rem; font-weight: 700; margin-right: 0.5rem;"><?php echo number_format($rating, 1); ?></span>
-                        <span style="font-size: 1rem; opacity: 0.9;">(امتیاز)</span>
+                        <span class="edu-rating-number"><?php echo number_format($rating, 1); ?></span>
                     </div>
-                </div>
-            <?php endif; ?>
-            
-            <div class="edu-meta-top">
-                <?php
-                $city_terms = get_the_terms(get_the_ID(), 'city');
-                if ($city_terms) {
-                    echo '<div class="edu-terms" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.5rem 0;">';
-                    foreach ($city_terms as $term) {
-                        echo '<span style="padding: 0.5rem 1rem; background: rgba(255,255,255,0.2); border-radius: 20px;">📍 ' . esc_html($term->name) . '</span>';
-                    }
-                    echo '</div>';
-                }
+                <?php endif; ?>
                 
-                $subject_terms = get_the_terms(get_the_ID(), 'subject');
-                if ($subject_terms) {
-                    echo '<div class="edu-terms" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.5rem 0;">';
-                    foreach ($subject_terms as $term) {
-                        echo '<span style="padding: 0.5rem 1rem; background: rgba(255,255,255,0.2); border-radius: 20px;">📚 ' . esc_html($term->name) . '</span>';
-                    }
-                    echo '</div>';
-                }
-                ?>
+                <?php if ($experience || $price): ?>
+                    <div class="edu-hero-meta">
+                        <?php if ($experience): ?>
+                            <span class="edu-hero-meta-item">
+                                <span class="edu-meta-icon">💼</span>
+                                <?php echo esc_html($experience); ?>
+                            </span>
+                        <?php endif; ?>
+                        
+                        <?php if ($price): ?>
+                            <span class="edu-hero-meta-item">
+                                <span class="edu-meta-icon">💰</span>
+                                <?php echo esc_html($price); ?>
+                            </span>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
         
-        <!-- عکس -->
-        <?php if (has_post_thumbnail()): ?>
-            <div class="edu-featured-image" style="text-align: center; padding: 2rem; background: #f9fafb; display: flex; justify-content: center; align-items: center;">
-                <?php the_post_thumbnail('medium', array('style' => 'width: 300px; height: 300px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin: 0 auto;')); ?>
-            </div>
-        <?php endif; ?>
-        
-        <!-- محتوا -->
-        <div class="edu-main-content">
-            <div class="edu-content-area">
-                <h2 style="font-size: 1.75rem; color: #1a202c; margin: 0 0 1.5rem 0; padding-bottom: 0.75rem; border-bottom: 3px solid #e5e7eb;">درباره معلم</h2>
-                <div class="edu-single-content" style="font-size: 1.1rem; line-height: 1.8; color: #374151;">
-                    <?php the_content(); ?>
-                </div>
-            </div>
-            
-            <!-- سایدبار -->
-            <aside class="edu-sidebar">
-                <?php if ($experience || $price): ?>
-                <div style="background: #f9fafb; padding: 1.5rem; border-radius: 12px; border: 2px solid #e5e7eb; margin-bottom: 1.5rem;">
-                    <h3 style="color: #2563eb; font-size: 1.25rem; margin: 0 0 1rem 0; border-bottom: 2px solid #dbeafe; padding-bottom: 0.75rem;">📚 اطلاعات تدریس</h3>
-                    <?php if ($experience): ?>
-                        <p style="margin: 0.75rem 0;"><strong>سابقه تدریس:</strong> <?php echo esc_html($experience); ?> سال</p>
-                    <?php endif; ?>
-                    <?php if ($price): ?>
-                        <p style="margin: 0.75rem 0;"><strong>هزینه:</strong> <?php echo number_format($price); ?> تومان/ساعت</p>
-                    <?php endif; ?>
-                </div>
-                <?php endif; ?>
+        <!-- Main Content Grid -->
+        <div class="edu-single-container">
+            <div class="edu-single-grid">
                 
-                <?php 
-                // برای معلمین، آدرس ممکن است نداشته باشند (چون خصوصی تدریس می‌کنند)
-                // اما اگر دارند نمایش بده
-                $teacher_address = get_post_meta(get_the_ID(), 'address', true);
-                if ($teacher_address): 
-                ?>
-                <div style="background: #f9fafb; padding: 1.5rem; border-radius: 12px; border: 2px solid #e5e7eb; margin-bottom: 1.5rem;">
-                    <h3 style="color: #2563eb; font-size: 1.25rem; margin: 0 0 1rem 0; border-bottom: 2px solid #dbeafe; padding-bottom: 0.75rem;">📍 آدرس</h3>
-                    <p style="margin: 0; line-height: 1.8; color: #374151;"><?php echo nl2br(esc_html($teacher_address)); ?></p>
-                </div>
-                <?php endif; ?>
-                
-                <?php if ($phone || $email): ?>
-                <div style="background: #f9fafb; padding: 1.5rem; border-radius: 12px; border: 2px solid #e5e7eb; margin-bottom: 1.5rem;">
-                    <h3 style="color: #2563eb; font-size: 1.25rem; margin: 0 0 1rem 0; border-bottom: 2px solid #dbeafe; padding-bottom: 0.75rem;">📞 اطلاعات تماس</h3>
-                    <?php if ($phone): ?>
-                        <p style="margin: 0.75rem 0;"><strong>تلفن:</strong> <a href="tel:<?php echo esc_attr($phone); ?>" style="color: #2563eb;"><?php echo esc_html($phone); ?></a></p>
+                <!-- Main Content -->
+                <div class="edu-main-content">
+                    
+                    <!-- Featured Image Card -->
+                    <?php if (has_post_thumbnail()): ?>
+                        <div class="edu-content-card edu-image-card">
+                            <div class="edu-card-glow"></div>
+                            <?php the_post_thumbnail('large', array('class' => 'edu-featured-img')); ?>
+                        </div>
                     <?php endif; ?>
-                    <?php if ($email): ?>
-                        <p style="margin: 0.75rem 0;"><strong>ایمیل:</strong> <a href="mailto:<?php echo esc_attr($email); ?>" style="color: #2563eb;"><?php echo esc_html($email); ?></a></p>
-                    <?php endif; ?>
-                </div>
-                <?php endif; ?>
-                
-                <?php if ($telegram || $instagram || $whatsapp): ?>
-                <div style="background: #f9fafb; padding: 1.5rem; border-radius: 12px; border: 2px solid #e5e7eb;">
-                    <h3 style="color: #2563eb; font-size: 1.25rem; margin: 0 0 1rem 0; border-bottom: 2px solid #dbeafe; padding-bottom: 0.75rem;">🌐 شبکه‌های اجتماعی</h3>
-                    <div class="edu-social-links">
-                        <?php if ($telegram): 
-                            $tg_link = (strpos($telegram, 'http') === 0) ? $telegram : 'https://t.me/' . ltrim($telegram, '@');
-                        ?>
-                            <a href="<?php echo esc_url($tg_link); ?>" target="_blank" class="edu-social-link edu-social-telegram">
-                                <span class="edu-social-icon">✈️</span>
-                                <span>تلگرام</span>
-                            </a>
-                        <?php endif; ?>
-                        
-                        <?php if ($instagram): 
-                            $ig_link = (strpos($instagram, 'http') === 0) ? $instagram : 'https://instagram.com/' . ltrim($instagram, '@');
-                        ?>
-                            <a href="<?php echo esc_url($ig_link); ?>" target="_blank" class="edu-social-link edu-social-instagram">
-                                <span class="edu-social-icon">📷</span>
-                                <span>اینستاگرام</span>
-                            </a>
-                        <?php endif; ?>
-                        
-                        <?php if ($whatsapp): ?>
-                            <a href="https://wa.me/<?php echo esc_attr($whatsapp); ?>" target="_blank" class="edu-social-link edu-social-whatsapp">
-                                <span class="edu-social-icon">💬</span>
-                                <span>واتساپ</span>
-                            </a>
-                        <?php endif; ?>
+                    
+                    <!-- Content Card -->
+                    <div class="edu-content-card">
+                        <div class="edu-card-header">
+                            <h2 class="edu-card-title">
+                                <span class="edu-title-icon">📖</span>
+                                بیوگرافی معلم
+                            </h2>
+                        </div>
+                        <div class="edu-card-body">
+                            <?php the_content(); ?>
+                        </div>
                     </div>
+                    
+                    <!-- Subjects Card -->
+                    <?php if (!empty($subjects)): ?>
+                        <div class="edu-content-card">
+                            <div class="edu-card-header">
+                                <h2 class="edu-card-title">
+                                    <span class="edu-title-icon">📚</span>
+                                    رشته‌های تدریس
+                                </h2>
+                            </div>
+                            <div class="edu-card-body">
+                                <div class="edu-tags-grid">
+                                    <?php foreach ($subjects as $subject): ?>
+                                        <a href="<?php echo get_term_link($subject); ?>" class="edu-tag">
+                                            <span class="edu-tag-icon">✨</span>
+                                            <?php echo esc_html($subject->name); ?>
+                                        </a>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    
                 </div>
-                <?php endif; ?>
-            </aside>
+                
+                <!-- Sidebar -->
+                <aside class="edu-sidebar">
+                    
+                    <!-- Teacher Info Card -->
+                    <?php if ($experience || $price): ?>
+                        <div class="edu-sidebar-card edu-card-highlight">
+                            <div class="edu-card-header">
+                                <h3 class="edu-card-title">
+                                    <span class="edu-title-icon">💼</span>
+                                    اطلاعات معلم
+                                </h3>
+                            </div>
+                            <div class="edu-card-body">
+                                <?php if ($experience): ?>
+                                    <div class="edu-info-item">
+                                        <span class="edu-info-icon">📅</span>
+                                        <div class="edu-info-content">
+                                            <span class="edu-info-label">سابقه تدریس</span>
+                                            <p class="edu-info-value"><?php echo esc_html($experience); ?></p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <?php if ($price): ?>
+                                    <div class="edu-info-item">
+                                        <span class="edu-info-icon">💰</span>
+                                        <div class="edu-info-content">
+                                            <span class="edu-info-label">شهریه</span>
+                                            <p class="edu-info-value"><?php echo esc_html($price); ?></p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <!-- Contact Card -->
+                    <?php if ($phone || $email || $website || $address): ?>
+                        <div class="edu-sidebar-card">
+                            <div class="edu-card-header">
+                                <h3 class="edu-card-title">
+                                    <span class="edu-title-icon">📞</span>
+                                    اطلاعات تماس
+                                </h3>
+                            </div>
+                            <div class="edu-card-body">
+                                <?php if ($phone): ?>
+                                    <div class="edu-contact-item">
+                                        <span class="edu-contact-icon">📱</span>
+                                        <div class="edu-contact-content">
+                                            <span class="edu-contact-label">تلفن</span>
+                                            <a href="tel:<?php echo esc_attr($phone); ?>" class="edu-contact-link">
+                                                <?php echo esc_html($phone); ?>
+                                            </a>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <?php if ($email): ?>
+                                    <div class="edu-contact-item">
+                                        <span class="edu-contact-icon">✉️</span>
+                                        <div class="edu-contact-content">
+                                            <span class="edu-contact-label">ایمیل</span>
+                                            <a href="mailto:<?php echo esc_attr($email); ?>" class="edu-contact-link">
+                                                <?php echo esc_html($email); ?>
+                                            </a>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <?php if ($website): ?>
+                                    <div class="edu-contact-item">
+                                        <span class="edu-contact-icon">🌐</span>
+                                        <div class="edu-contact-content">
+                                            <span class="edu-contact-label">وب‌سایت</span>
+                                            <a href="<?php echo esc_url($website); ?>" target="_blank" class="edu-contact-link">
+                                                مشاهده سایت
+                                            </a>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <?php if ($address): ?>
+                                    <div class="edu-contact-item">
+                                        <span class="edu-contact-icon">📍</span>
+                                        <div class="edu-contact-content">
+                                            <span class="edu-contact-label">آدرس</span>
+                                            <p class="edu-contact-text"><?php echo esc_html($address); ?></p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <!-- Social Media Card -->
+                    <?php if ($telegram || $instagram || $whatsapp): ?>
+                        <div class="edu-sidebar-card">
+                            <div class="edu-card-header">
+                                <h3 class="edu-card-title">
+                                    <span class="edu-title-icon">📱</span>
+                                    شبکه‌های اجتماعی
+                                </h3>
+                            </div>
+                            <div class="edu-card-body">
+                                <div class="edu-social-links">
+                                    <?php if ($telegram): ?>
+                                        <a href="<?php echo strpos($telegram, 'http') === 0 ? esc_url($telegram) : 'https://t.me/' . ltrim($telegram, '@'); ?>" 
+                                           target="_blank" class="edu-social-btn edu-social-telegram">
+                                            <span class="edu-social-icon">📢</span>
+                                            <span class="edu-social-text">تلگرام</span>
+                                        </a>
+                                    <?php endif; ?>
+                                    
+                                    <?php if ($instagram): ?>
+                                        <a href="<?php echo strpos($instagram, 'http') === 0 ? esc_url($instagram) : 'https://instagram.com/' . ltrim($instagram, '@'); ?>" 
+                                           target="_blank" class="edu-social-btn edu-social-instagram">
+                                            <span class="edu-social-icon">📸</span>
+                                            <span class="edu-social-text">اینستاگرام</span>
+                                        </a>
+                                    <?php endif; ?>
+                                    
+                                    <?php if ($whatsapp): ?>
+                                        <a href="https://wa.me/<?php echo esc_attr($whatsapp); ?>" 
+                                           target="_blank" class="edu-social-btn edu-social-whatsapp">
+                                            <span class="edu-social-icon">💬</span>
+                                            <span class="edu-social-text">واتساپ</span>
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <!-- Grades Card -->
+                    <?php if (!empty($grades)): ?>
+                        <div class="edu-sidebar-card">
+                            <div class="edu-card-header">
+                                <h3 class="edu-card-title">
+                                    <span class="edu-title-icon">🎯</span>
+                                    پایه‌های تدریس
+                                </h3>
+                            </div>
+                            <div class="edu-card-body">
+                                <div class="edu-grades-list">
+                                    <?php foreach ($grades as $grade): ?>
+                                        <div class="edu-grade-item">
+                                            <span class="edu-grade-icon">✓</span>
+                                            <?php echo esc_html($grade->name); ?>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    
+                </aside>
+                
+            </div>
         </div>
         
     </article>
-</div>
-
-<?php
-    endwhile;
-endif;
+    
+    <?php
+endwhile;
 
 get_footer();
-?>
